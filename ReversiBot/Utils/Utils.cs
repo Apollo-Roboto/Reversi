@@ -5,22 +5,15 @@ namespace ReversiBot
 {
 	public static class Utils
 	{
-		public static int PosToIndex(string pos)
+		public static Vector2 PosToCoord(string pos)
 		{
-			if(pos.Length != 2)
-				return -1;
-
 			int horizontal = ((int)pos[0])-64;
 			int vertical = (int.Parse(pos.Substring(1)));
 
-			if(horizontal > 8 || vertical > 8)
-				return -1;
-
-			// return (horizontal-1) * (vertical-1);
-			return (8*(vertical-1)) + (horizontal-1);
+			return new Vector2(vertical-1, horizontal-1);
 		}
 
-		public static string IndexToPos(int index)
+		public static string CoordToPos(Vector2 coord)
 		{
 			throw new NotImplementedException();
 		}
@@ -35,16 +28,16 @@ namespace ReversiBot
 			Console.WriteLine("       B {0,2} • {1,-2} W       ", board.GetScore(Player.BLACK), board.GetScore(Player.WHITE));
 			Console.WriteLine("   ╭─────────────────╮ ");
 
-			for(int i = 0; i < 64; i+=8)
+			for(int i = 0; i < 8; i++)
 			{
-				string[] row = (
-					from cell in board.cells.Skip(i).Take(8)
-					select cell.Current.Short() == 'N' ? blank :  cell.Current.Short().ToString()
-				).ToArray();
-
-				Console.WriteLine(string.Format(i/8+1 + "  │ {0} {1} {2} {3} {4} {5} {6} {7} │",
-					row
-				));
+				Console.Write(i+1 + "  │ ");
+				for(int j = 0; j < 8; j++)
+				{
+					Cell cell = board.GetCell(i, j);
+					string c = cell.Current.Short() == 'N' ? blank : cell.Current.Short().ToString();
+					Console.Write(c + " ");
+				}
+				Console.WriteLine("│");
 			}
 
 			Console.WriteLine("   ╰─────────────────╯ ");

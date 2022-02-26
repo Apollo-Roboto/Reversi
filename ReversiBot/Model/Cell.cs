@@ -31,7 +31,7 @@ namespace ReversiBot
 			}
 		}
 
-		public override bool Equals(Object obj)
+		public override bool Equals(object obj)
 		{
 			return Equals(obj as Cell);
 		}
