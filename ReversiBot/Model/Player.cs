@@ -11,7 +11,7 @@ namespace ReversiBot
 
 		public static Player Opposite(this Player player)
 		{
-			switch(player)
+			switch (player)
 			{
 				case Player.BLACK:
 					return Player.WHITE;
@@ -22,9 +22,9 @@ namespace ReversiBot
 			}
 		}
 	}
-	
+
 	public enum Player
 	{
-		WHITE,BLACK,NONE
+		NONE, WHITE, BLACK, TIE
 	}
 }

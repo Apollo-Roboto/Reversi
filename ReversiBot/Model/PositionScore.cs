@@ -4,8 +4,8 @@ namespace ReversiBot
 {
 	public class PositionScore
 	{
-		public Vector2 Pos {get;set;}
-		public float Score {get; set;}
+		public Vector2 Pos { get; set; }
+		public float Score { get; set; }
 
 		public PositionScore(Vector2 pos, float score)
 		{

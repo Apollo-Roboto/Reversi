@@ -6,76 +6,60 @@ namespace ReversiBot
 {
 	public class Board
 	{
-		public Cell[,] cells = new Cell[8,8];
-		public Player Turn {get; private set;} = Player.BLACK;
-		public Player Winner {get; private set;} = Player.NONE;
+		public Cell[,] cells = new Cell[8, 8];
+		public Player Turn { get; private set; }
 		private Vector2[] directions = {
 			new Vector2(0,1), new Vector2(1,1), new Vector2(0,-1), new Vector2(-1, 1),
 			new Vector2(1,0), new Vector2(-1,-1), new Vector2(-1,0), new Vector2(1, -1)
 		};
 
-		public Board(Cell[,] cells = null)
+		public Board(Cell[,] cells = null, Player turn = Player.BLACK)
 		{
-			if(cells == null)
-				InitBoard();
-			else
-				this.cells = cells;
-		}
-
-		private void InitBoard()
-		{
-			for(int i = 0; i < 8; i++)
-				for(int j = 0; j < 8; j++)
-					cells[i,j] = new Cell();
-				
-			cells[3,3].Current = Player.WHITE;
-			cells[3,4].Current = Player.BLACK;
-			cells[4,3].Current = Player.BLACK;
-			cells[4,4].Current = Player.WHITE;
+			Turn = turn;
+			this.cells = cells;
 		}
 
 		public int GetScore(Player player)
 		{
 			int sum = 0;
-			
-			for(int i = 0; i < 8; i++)
-				for(int j = 0; j < 8; j++)
-					if(GetCell(i,j).Current == player)
+
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					if (GetCell(i, j).Current == player)
 						sum++;
 
 			return sum;
 		}
-		
-		public void Place(Vector2 pos)
+
+		public void Place(Vector2 pos, Player player)
 		{
-			cells[pos.X,pos.Y].Current = Turn;
+			cells[pos.X, pos.Y].Current = player;
 
-			foreach(Vector2 dir in directions)
+			foreach (Vector2 dir in directions)
 			{
-				FlipDirection(pos, dir);
+				FlipDirection(pos, dir, player);
 			}
-
-			SwitchTurn();
 		}
-		private void FlipDirection(Vector2 pos, Vector2 dir)
+
+		private void FlipDirection(Vector2 pos, Vector2 dir, Player player)
 		{
 			List<Cell> toFlip = new List<Cell>();
 			bool flippable = false;
 
-			for(int i = 1; i < 8; i++)
+			for (int i = 1; i < 8; i++)
 			{
-				Vector2 cpos = new Vector2(pos.X + i*dir.X, pos.Y + i*dir.Y);
-				if(IsOutside(cpos))
+				Vector2 cpos = new Vector2(pos.X + i * dir.X, pos.Y + i * dir.Y);
+				if (IsOutside(cpos))
 					return;
 
 				Cell cell = GetCell(cpos);
 
 				// if opposite color, Flip
-				if(cell.Current == Turn.Opposite())
+				if (cell.Current == player.Opposite())
 					toFlip.Add(cell);
 
 				// if this player, stop looking and flip
-				else if(cell.Current == Turn)
+				else if (cell.Current == player)
 				{
 					flippable = true;
 					break;
@@ -86,28 +70,20 @@ namespace ReversiBot
 			}
 
 			// flip all that needs to flip
-			if(flippable)
+			if (flippable)
 				toFlip.ForEach(cell => cell.Flip());
 		}
 
-		private void SwitchTurn()
+		public void SwitchTurn()
 		{
-			Turn = Turn.Opposite();
+			// don't switch turns if the other player cannot play
+			if(CanPlayerPlay(Turn.Opposite()))
+				Turn = Turn.Opposite();
 		}
 
 		public Player GetPlayer(Vector2 pos)
 		{
 			return GetCell(pos).Current;
-		}
-
-		public bool IsPlayable(Vector2 pos)
-		{
-			foreach(PositionScore positionScore in GetPossibleMoves())
-			{
-				if(positionScore.Pos.X == pos.X && positionScore.Pos.Y == pos.Y)
-					return true;
-			}
-			return false;
 		}
 
 		private bool IsOutside(Vector2 pos)
@@ -125,56 +101,133 @@ namespace ReversiBot
 			return cells[x, y];
 		}
 
-		private PositionScore ScoreDirection(Vector2 pos, Vector2 dir)
+		public bool IsGameOver()
+		{
+			return !CanPlayerPlay(Player.WHITE) && !CanPlayerPlay(Player.BLACK);
+		}
+
+		public Player GetWinner()
+		{
+			if (!IsGameOver())
+				return Player.NONE;
+
+			int blackScore = GetScore(Player.BLACK);
+			int whiteScore = GetScore(Player.WHITE);
+
+			if (blackScore > whiteScore)
+				return Player.BLACK;
+			if (blackScore < whiteScore)
+				return Player.WHITE;
+			if (blackScore == whiteScore)
+				return Player.TIE;
+
+			return Player.NONE;
+		}
+
+		public bool CanPlayerPlay(Player player)
+		{
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					if (IsPlayable(new Vector2(i, j), player))
+						return true;
+
+			return false;
+		}
+
+		public bool IsPlayable(Vector2 pos, Player player)
+		{
+			if (!GetCell(pos).IsFree())
+				return false;
+
+			foreach (Vector2 dir in directions)
+			{
+				for (int i = 1; i < 8; i++)
+				{
+					Vector2 cpos = new Vector2(pos.X + i * dir.X, pos.Y + i * dir.Y);
+					if (IsOutside(cpos))
+						break;
+
+					Cell cell = GetCell(cpos);
+
+					// if nothing, no moves
+					if (cell.Current == Player.NONE)
+						break;
+
+					// if next cell is same color, no possible move here
+					else if (i == 1 && cell.Current == player)
+						break;
+
+					// if Followed by our player, possible move
+					else if (cell.Current == player)
+						return true;
+				}
+			}
+			return false;
+		}
+
+		public List<Vector2> GetPossibleMoves(Player player)
+		{
+			List<Vector2> possibleMoves = new List<Vector2>();
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+				{
+					Vector2 pos = new Vector2(i, j);
+					if (IsPlayable(pos, player))
+						possibleMoves.Add(pos);
+				}
+			return possibleMoves;
+		}
+
+		private PositionScore ScoreDirection(Vector2 pos, Vector2 dir, Player player)
 		{
 			float score = 0;
 
-			for(int i = 1; i < 8; i++)
+			for (int i = 1; i < 8; i++)
 			{
-				Vector2 cpos = new Vector2(pos.X + i*dir.X, pos.Y + i*dir.Y);
-				if(IsOutside(cpos))
+				Vector2 cpos = new Vector2(pos.X + i * dir.X, pos.Y + i * dir.Y);
+				if (IsOutside(cpos))
 					return null;
 
 				Cell cell = GetCell(cpos);
 
 				// if nothing on next cell, skip
-				if(i == 1 && cell.Current == Player.NONE)
+				if (i == 1 && cell.Current == Player.NONE)
 					return null;
-				
+
 				// if same color, no possible move here
-				if(cell.Current == Turn)
+				if (cell.Current == player)
 					return null;
 
 				// if opposite color, add score, continue
-				else if(cell.Current == Turn.Opposite())
+				else if (cell.Current == player.Opposite())
 					score += 1;
-				
+
 				// if spot is free, take it
-				else if(cell.Current == Player.NONE)
+				else if (cell.Current == Player.NONE)
 					return new PositionScore(cpos, score);
 			}
 			return null;
 		}
 
-		public PositionScore[] GetPossibleMoves()
+		public List<PositionScore> GetPossiblePositionScore(Player player)
 		{
 			List<PositionScore> possibleMoves = new List<PositionScore>();
 
-			for(int i = 0; i < 8; i++)
+			for (int i = 0; i < 8; i++)
 			{
-				for(int j = 0; j < 8; j++)
+				for (int j = 0; j < 8; j++)
 				{
 					Vector2 pos = new Vector2(i, j);
 					Cell cell = GetCell(pos);
 
-					// Only calculate those about this turn
-					if(cell.Current != Turn)
+					// Only calculate those about this player
+					if (cell.Current != player)
 						continue;
-					
-					foreach(Vector2 dir in directions)
+
+					foreach (Vector2 dir in directions)
 					{
-						PositionScore posScore = ScoreDirection(pos, dir);
-						if(posScore != null)
+						PositionScore posScore = ScoreDirection(pos, dir, player);
+						if (posScore != null)
 						{
 							possibleMoves.Add(posScore);
 						}
@@ -183,12 +236,12 @@ namespace ReversiBot
 			}
 
 			// combine scores at same positions
-			for(int i = 0; i < possibleMoves.Count; i++)
+			for (int i = 0; i < possibleMoves.Count; i++)
 			{
-				for(int j = 0; j < possibleMoves.Count; j++)
+				for (int j = 0; j < possibleMoves.Count; j++)
 				{
-					if(j == i) continue;
-					if(possibleMoves[i].Pos == possibleMoves[j].Pos)
+					if (j == i) continue;
+					if (possibleMoves[i].Pos == possibleMoves[j].Pos)
 					{
 						float score = possibleMoves[i].Score + possibleMoves[j].Score;
 						PositionScore newPos = new PositionScore(possibleMoves[i].Pos, score);
@@ -199,7 +252,7 @@ namespace ReversiBot
 				}
 			}
 
-			return possibleMoves.ToArray();
+			return possibleMoves;
 		}
 	}
 }

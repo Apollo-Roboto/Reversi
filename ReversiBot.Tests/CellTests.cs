@@ -33,10 +33,7 @@ namespace ReversiBot.Tests
 			Assert.Equal(expected, cell.Current);
 		}
 
-		[Theory]
-		[InlineData(Player.NONE)]
-		[InlineData(Player.WHITE)]
-		[InlineData(Player.BLACK)]
+		[Theory, InlineData(Player.NONE), InlineData(Player.WHITE), InlineData(Player.BLACK)]
 		public void Equal(Player c)
 		{
 			Cell cell1 = new Cell(c);

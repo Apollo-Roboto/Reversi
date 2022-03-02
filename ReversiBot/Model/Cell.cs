@@ -4,15 +4,15 @@ namespace ReversiBot
 {
 	public class Cell
 	{
-		public Player Current {get;set;}
-		public int Importance {get;set;}
+		public Player Current { get; set; }
+		public int Importance { get; set; }
 
-		public Cell(Player current=Player.NONE, int importance=0)
+		public Cell(Player current = Player.NONE, int importance = 0)
 		{
 			this.Current = current;
 			this.Importance = importance;
 		}
-		
+
 		public bool IsFree()
 		{
 			return Current == Player.NONE;
@@ -20,7 +20,7 @@ namespace ReversiBot
 
 		public void Flip()
 		{
-			switch(Current)
+			switch (Current)
 			{
 				case Player.BLACK:
 					Current = Player.WHITE;

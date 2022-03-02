@@ -4,8 +4,8 @@ namespace ReversiBot
 {
 	public struct Vector2
 	{
-		public int X {get;set;}
-		public int Y {get;set;}
+		public int X { get; set; }
+		public int Y { get; set; }
 		public Vector2(int x, int y)
 		{
 			X = x;
@@ -16,7 +16,7 @@ namespace ReversiBot
 			return new Vector2(0, 0);
 		}
 
-		public override string ToString() => "( "+ X + "," + Y + " )";
+		public override string ToString() => "( " + X + "," + Y + " )";
 
 		public override bool Equals(object obj) => obj is Vector2 other && this.Equals(other);
 

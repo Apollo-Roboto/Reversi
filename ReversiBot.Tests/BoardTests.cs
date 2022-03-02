@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace ReversiBot.Tests
 {
@@ -9,75 +10,99 @@ namespace ReversiBot.Tests
 		[Fact]
 		public void Place()
 		{
-			Board board = new Board();
-			Assert.Equal(board.Get(19), Player.NONE);
-			board.Place(19);
-			Assert.Equal(board.Get(19), Player.BLACK);
-		}
-
-		[Theory]
-		[InlineData(27, 19)]
-		[InlineData(27, 26)]
-		[InlineData(36, 44)]
-		[InlineData(36, 37)]
-		public void PlaceMakesTheDiskFlip(int flipped, int place)
-		{
-			Board board = new Board();
-			board.Place(place);
-			Assert.Equal(Player.BLACK, board.Get(flipped));
+			Board board = BoardPreset.Startup();
+			Vector2 pos = new Vector2(2, 3);
+			Assert.Equal(Player.NONE, board.GetPlayer(pos));
+			board.Place(pos, Player.BLACK);
+			Assert.Equal(Player.BLACK, board.GetPlayer(pos));
 		}
 
 		[Fact]
-		public void TurnChangesAfterPlace()
+		public void PlaceMakesTheDiskFlip()
 		{
-			Board board = new Board();
-			Assert.Equal(Player.BLACK, board.Turn);
-			board.Place(19);
-			Assert.Equal(Player.WHITE, board.Turn);
+			Board board = BoardPreset.Startup();
+			board.Place(new Vector2(2, 3), Player.BLACK);
+			Assert.Equal(Player.BLACK, board.GetPlayer(new Vector2(3, 3)));
 		}
 
 		[Fact]
 		public void GetPossibleMoves()
 		{
-			Board board = new Board();
-			board.Place(19);
-			int[] expected = {18, 20, 34};
+			Board board = BoardPreset.Startup();
+			board.Place(new Vector2(2, 3), Player.BLACK);
+			List<Vector2> expected = new List<Vector2>{
+				new Vector2(2,2),
+				new Vector2(2,4),
+				new Vector2(4,2)
+			};
 
-			int[] indexes = board.GetPossibleMoves()
-				.Select(x => x.Index)
-				.OrderBy(x => x)
-				.ToArray<int>();
-
+			List<Vector2> indexes = board.GetPossibleMoves(Player.WHITE);
 			Assert.Equal(expected, indexes);
 		}
 
-		[Theory]
-		[InlineData(18)]
-		[InlineData(20)]
-		[InlineData(34)]
-		public void IsPlayable(int pos)
+		[Fact]
+		public void IsPlayable()
 		{
-			Board board = new Board();
-			board.Place(19);
-			Assert.True(board.IsPlayable(pos));
+			Board board = BoardPreset.Startup();
+			Assert.True(board.IsPlayable(new Vector2(5, 4), Player.BLACK));
 		}
 
-		[Theory]
-		[InlineData(27)]
-		[InlineData(28)]
-		[InlineData(35)]
-		[InlineData(36)]
-		[InlineData(19)]
-		[InlineData(56)]
-		[InlineData(63)]
-		[InlineData(45)]
-		public void IsNotPlayable(int pos)
+		[Fact]
+		public void IsNotPlayable()
 		{
-			Board board = new Board();
-			board.Place(19);
-			Assert.False(board.IsPlayable(pos));
+			Board board = BoardPreset.Startup();
+			Assert.False(board.IsPlayable(new Vector2(5, 4), Player.WHITE));
 		}
 
+		[Fact]
+		public void CanPlayerPlay()
+		{
+			Board board = BoardPreset.Startup();
+			Assert.True(board.CanPlayerPlay(Player.BLACK));
+			Assert.True(board.CanPlayerPlay(Player.WHITE));
+		}
 
+		[Fact]
+		public void CanPlayerNotPlay()
+		{
+			Board board = BoardPreset.WhiteCantPlay();
+			Assert.False(board.CanPlayerPlay(Player.WHITE));
+		}
+
+		[Fact]
+		public void CanPlayerNoMoreMoves()
+		{
+			Board board = BoardPreset.GameOver();
+			Assert.False(board.CanPlayerPlay(Player.WHITE));
+			Assert.False(board.CanPlayerPlay(Player.BLACK));
+		}
+
+		[Fact]
+		public void IsGameOver()
+		{
+			Board board = BoardPreset.GameOver();
+			Assert.True(board.IsGameOver());
+		}
+
+		[Fact]
+		public void IsNotGameOver()
+		{
+			Board board = BoardPreset.Startup();
+			Assert.False(board.IsGameOver());
+		}
+
+		[Fact]
+		public void GetWinner()
+		{
+			Board board = BoardPreset.GameOver();
+			Assert.Equal(Player.WHITE, board.GetWinner());
+		}
+
+		[Fact]
+		public void GetWinnerTie()
+		{
+			Board board = BoardPreset.Tie();
+			Assert.Equal(Player.TIE, board.GetWinner());
+		}
 	}
 }
