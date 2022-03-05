@@ -16,6 +16,15 @@ namespace ReversiBot
 			return new Vector2(0, 0);
 		}
 
+		/// <sumary>
+		/// Algebraic Notation
+		/// </sumary>
+		public string AN()
+		{
+			char letter = (char)((int)'A' + Y);
+			return letter + "" + (X+1);
+		}
+
 		public override string ToString() => "( " + X + "," + Y + " )";
 
 		public override bool Equals(object obj) => obj is Vector2 other && this.Equals(other);

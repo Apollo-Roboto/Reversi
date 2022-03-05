@@ -75,6 +75,27 @@ namespace ReversiBot
 			cells[4, 3].Current = Player.WHITE;
 			cells[4, 4].Current = Player.WHITE;
 			cells[4, 7].Current = Player.BLACK;
+			return new Board(cells, Player.WHITE);
+		}
+
+		public static Board TwoCombine()                      // - - - - - - - -
+		{                                                     // - - - - - B - -
+			Cell[,] cells = new Cell[8, 8];                   // - - W W W B - -
+			for (int i = 0; i < 8; i++)                       // - - B B B B - -
+				for (int j = 0; j < 8; j++)                   // - - - B W - - -
+					cells[i, j] = new Cell();                 // - - - - - - - -
+															  // - - - - - - - -
+			cells[1, 5].Current = Player.BLACK;               // - - - - - - - -
+			cells[2, 2].Current = Player.WHITE;
+			cells[2, 3].Current = Player.WHITE;
+			cells[2, 4].Current = Player.WHITE;
+			cells[2, 5].Current = Player.BLACK;
+			cells[3, 2].Current = Player.BLACK;
+			cells[3, 3].Current = Player.BLACK;
+			cells[3, 4].Current = Player.BLACK;
+			cells[3, 5].Current = Player.BLACK;
+			cells[4, 3].Current = Player.BLACK;
+			cells[4, 4].Current = Player.WHITE;
 			return new Board(cells);
 		}
 	}

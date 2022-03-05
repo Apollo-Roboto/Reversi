@@ -13,11 +13,6 @@ namespace ReversiBot
 			return new Vector2(vertical - 1, horizontal - 1);
 		}
 
-		public static string CoordToPos(Vector2 coord)
-		{
-			throw new NotImplementedException();
-		}
-
 		public static void PrintBoard(Board board)
 		{
 			string blankColor = "\x1b[38;2;100;100;100m";
@@ -25,7 +20,7 @@ namespace ReversiBot
 			string blank = blankColor + "•" + resetColor;
 
 			Console.Write("Possible moves: ");
-			board.GetPossibleMoves(board.Turn).ForEach(x => Console.Write(x + " "));
+			board.GetPossibleMoves(board.Turn).ForEach(x => Console.Write(x.AN() + " "));
 			Console.WriteLine("\n");
 			Console.WriteLine("       B {0,2} • {1,-2} W       ", board.GetScore(Player.BLACK), board.GetScore(Player.WHITE));
 			Console.WriteLine("   ╭─────────────────╮ ");

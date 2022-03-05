@@ -15,8 +15,13 @@ namespace ReversiBot
 
 		public Board(Cell[,] cells = null, Player turn = Player.BLACK)
 		{
-			Turn = turn;
+			this.Turn = turn;
 			this.cells = cells;
+		}
+
+		public Board Clone()
+		{
+			return new Board(cells, Turn);
 		}
 
 		public int GetScore(Player player)
@@ -235,6 +240,8 @@ namespace ReversiBot
 				}
 			}
 
+			List<PositionScore> combinedMoves = new List<PositionScore>();
+
 			// combine scores at same positions
 			for (int i = 0; i < possibleMoves.Count; i++)
 			{
@@ -246,11 +253,12 @@ namespace ReversiBot
 						float score = possibleMoves[i].Score + possibleMoves[j].Score;
 						PositionScore newPos = new PositionScore(possibleMoves[i].Pos, score);
 
-						possibleMoves[i] = newPos;
-						possibleMoves.RemoveAt(j);
+						combinedMoves.Add(newPos);
 					}
 				}
 			}
+
+			combinedMoves.ForEach(x => possibleMoves.Add(x));
 
 			return possibleMoves;
 		}
