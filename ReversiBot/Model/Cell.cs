@@ -2,7 +2,7 @@ using System;
 
 namespace ReversiBot
 {
-	public class Cell
+	public class Cell : ICloneable
 	{
 		public Player Current { get; set; }
 		public int Importance { get; set; }
@@ -31,16 +31,9 @@ namespace ReversiBot
 			}
 		}
 
-		public override bool Equals(object obj)
-		{
-			return Equals(obj as Cell);
-		}
+		public override bool Equals(object obj) => obj is Cell other && this.Equals(other);
 
-		public bool Equals(Cell other)
-		{
-			return other != null &&
-				Current == other.Current;
-		}
+		public bool Equals(Cell p) => Current == p.Current && Importance == p.Importance;
 
 		public override int GetHashCode()
 		{
@@ -50,6 +43,11 @@ namespace ReversiBot
 		public override string ToString()
 		{
 			return Current.ToString();
+		}
+
+		public object Clone()
+		{
+			return new Cell(Current, Importance);
 		}
 	}
 }

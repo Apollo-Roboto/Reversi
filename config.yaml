@@ -8,9 +8,13 @@ BoardCellImportance: |-
   5 4 3 2 2 3 4 5
   8 5 4 4 4 4 5 8
 
-# Points given to the number of 
+# Points given to the number of possible moves of the enemy
 EnemyPossibleMoveScore: -1
 
+# Point multiplier for the ammount of disk flipped
 FlipAmountMultiplier: 1.25
+
+# Score to give if the enemy cannot play
+EnemyCannotPlayScore: 10.0
 
 Depth: 5

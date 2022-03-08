@@ -12,6 +12,7 @@ namespace ReversiBot
 		private int[,] _BoardCells = new int[8, 8];
 		public float EnemyPossibleMoveScore;
 		public float FlipAmountMultiplier;
+		public float EnemyCannotPlayScore;
 		public int Depth;
 
 		public Config()

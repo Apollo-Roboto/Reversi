@@ -21,7 +21,15 @@ namespace ReversiBot
 
 		public Board Clone()
 		{
-			return new Board(cells, Turn);
+			Cell[,] clonedCells = new Cell[8,8];
+			for(int i = 0; i < 8; i++)
+				for(int j = 0; j < 8; j++)
+					clonedCells[i,j] = (Cell)cells[i,j].Clone();
+
+			return new Board(
+				clonedCells,
+				Turn
+			);
 		}
 
 		public int GetScore(Player player)

@@ -5,27 +5,6 @@ namespace ReversiBot
 {
 	public class Solver
 	{
-		// public static PositionScore Solve(Board board, Player player, int level, int depth)
-		// {
-		// 	if(level >= depth)
-		// 		return new PositionScore();
-
-		// 	List<PositionScore> positions = new List<PositionScore>();
-
-		// 	foreach(PositionScore positionScore in board.GetPossiblePositionScore(player))
-		// 	{
-		// 		float score = 0;
-		// 		Board newBoard = board.Clone();
-		// 		newBoard.Place(positionScore.Pos, player);
-		// 		PositionScore asd = Solve(newBoard, player, level+1, depth);
-
-		// 		positions.Add(asd);
-		// 	}
-
-		// 	PositionScore top = null;
-			
-		// 	return new PositionScore();
-		// }
 
 		public static PositionScore Random(Board board, Player player)
 		{
@@ -44,6 +23,30 @@ namespace ReversiBot
 				if(pos.Score > bestPos.Score)
 				{
 					bestPos = pos;
+				}
+			}
+			return bestPos;
+		}
+
+		public static PositionScore TwoLevel(Board board, Player player)
+		{
+			PositionScore bestPos = new PositionScore(new Vector2(-1,-1), float.MinValue);
+			foreach(PositionScore pos in board.GetPossiblePositionScore(player))
+			{
+				float score = pos.Score;
+
+				float enemyMoves = 0;
+				Board newboard = board.Clone();
+				newboard.Place(pos.Pos, player);
+				if(newboard.CanPlayerPlay(player.Opposite()))
+					// find how many moves they can make
+					enemyMoves = newboard.GetPossibleMoves(player.Opposite()).Count;
+				
+				score -= enemyMoves;
+
+				if(score > bestPos.Score)
+				{
+					bestPos = new PositionScore(pos.Pos, score);
 				}
 			}
 			return bestPos;

@@ -15,7 +15,7 @@ namespace ReversiBot
 
 		public override string ToString()
 		{
-			return "Pos: " + Pos + " Score: " + Score;
+			return "Pos: " + Pos.AN() + " Score: " + Score;
 		}
 	}
 }
