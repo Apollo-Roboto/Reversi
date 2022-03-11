@@ -13,6 +13,7 @@ namespace ReversiBot
 		public float EnemyPossibleMoveScore;
 		public float FlipAmountMultiplier;
 		public float EnemyCannotPlayScore;
+		public float GameOverScore;
 		public int Depth;
 
 		public Config()

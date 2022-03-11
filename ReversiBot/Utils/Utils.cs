@@ -1,10 +1,16 @@
 using System;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace ReversiBot
 {
 	public static class Utils
 	{
+		public static bool ValidateInput(string input)
+		{
+			return Regex.Matches(input, @"^[A-H][1-8]$").Count != 0;
+		}
+		
 		public static Vector2 PosToCoord(string pos)
 		{
 			int horizontal = ((int)pos[0]) - 64;
