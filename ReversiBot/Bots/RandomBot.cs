@@ -1,0 +1,18 @@
+using System;
+using System.Collections.Generic;
+
+namespace ReversiBot
+{
+	class RandomBot : IBot
+	{
+		private Random random = new Random();
+		
+		public PositionInformation NextMove(Board board, Player player)
+		{
+			List<PositionInformation> possibleMoves = board.GetPossiblePositionInformation(player);
+			int choose = random.Next(0, possibleMoves.Count);
+
+			return possibleMoves[choose];
+		}
+	}
+}
