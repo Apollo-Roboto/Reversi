@@ -1,23 +1,37 @@
+
+# Recusion depth
+Depth: 3
+
+# score to give to each cell
 BoardCellImportance: |-
-  8 5 4 4 4 4 5 8
-  5 4 3 2 2 3 4 5
-  4 3 2 2 2 2 3 4
-  4 2 2 1 1 2 2 4
-  4 2 2 1 1 2 2 4
-  4 3 2 2 2 2 3 4
-  5 4 3 2 2 3 4 5
-  8 5 4 4 4 4 5 8
+  9 1 1 1 1 1 1 9
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1
+  1 1 1 1 1 1 1 1
+  9 1 1 1 1 1 1 9
+
+CellImportanceMultiplier: 0.75
 
 # Points given to the number of possible moves of the enemy
-EnemyPossibleMoveScore: -1
+EnemyPossibleMoveScore: -5
 
 # Point multiplier for the ammount of disk flipped
-FlipAmountMultiplier: 1.25
+FlipAmountMultiplier: 1.5
+
+# Score to give if a game ending is found
+GameOverScore: 1000000.0
 
 # Score to give if the enemy cannot play
 EnemyCannotPlayScore: 1000.0
 
-# Score to give if a game ending is found
-GameOverScore: 100000.0
+# How much does the score of the enemy matters
+EnemyScoreMultiplier: -2
 
-Depth: 3
+# How much score to give for each pieces the enemy owns
+EnemyPiecesScore: -2
+
+# How much score to give for each of our pieces
+CurrentPiecesScore: 2

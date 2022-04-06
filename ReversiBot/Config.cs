@@ -7,13 +7,19 @@ namespace ReversiBot
 {
 	public class Config
 	{
-		private static string filePath = "./config.yaml";
+		// private static string filePath = "./config.yaml";
+		private static string filePath = "C:\\Users\\Pigeon\\Repositories\\ReversiBot\\config.yaml";
+		
 		public string BoardCellImportance;
+		public float CellImportanceMultiplier;
 		private int[,] _BoardCells = new int[8, 8];
 		public float EnemyPossibleMoveScore;
 		public float FlipAmountMultiplier;
 		public float EnemyCannotPlayScore;
 		public float GameOverScore;
+		public float EnemyScoreMultiplier;
+		public float EnemyPiecesScore;
+		public float CurrentPiecesScore;
 		public int Depth;
 
 		public Config()
