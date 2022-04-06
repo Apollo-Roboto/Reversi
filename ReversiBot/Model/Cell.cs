@@ -5,12 +5,10 @@ namespace ReversiBot
 	public class Cell : ICloneable
 	{
 		public Player Current { get; set; }
-		public int Importance { get; set; }
 
-		public Cell(Player current = Player.NONE, int importance = 0)
+		public Cell(Player current = Player.NONE)
 		{
 			this.Current = current;
-			this.Importance = importance;
 		}
 
 		public bool IsFree()
@@ -33,7 +31,7 @@ namespace ReversiBot
 
 		public override bool Equals(object obj) => obj is Cell other && this.Equals(other);
 
-		public bool Equals(Cell p) => Current == p.Current && Importance == p.Importance;
+		public bool Equals(Cell p) => Current == p.Current;
 
 		public override int GetHashCode()
 		{
@@ -47,7 +45,7 @@ namespace ReversiBot
 
 		public object Clone()
 		{
-			return new Cell(Current, Importance);
+			return new Cell(Current);
 		}
 	}
 }

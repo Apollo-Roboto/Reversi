@@ -6,6 +6,15 @@ namespace ReversiBot
 {
 	public static class Utils
 	{
+		public static void WaitForEnter()
+		{
+			Console.WriteLine();
+			Console.Write("Press enter to continue");
+			while (Console.ReadKey().Key != ConsoleKey.Enter) {}
+			Console.Write(new String(' ', Console.BufferWidth));
+			Console.WriteLine();
+		}
+
 		public static bool ValidateInput(string input)
 		{
 			return Regex.Matches(input, @"^[A-H][1-8]$").Count != 0;
@@ -17,6 +26,19 @@ namespace ReversiBot
 			int vertical = (int.Parse(pos.Substring(1)));
 
 			return new Vector2(vertical - 1, horizontal - 1);
+		}
+
+		public static Player StringToPlayer(string player)
+		{
+			switch(player.ToLower())
+			{
+				case "black":
+					return Player.BLACK;
+				case "white":
+					return Player.WHITE;
+				default:
+					return Player.NONE;
+			}
 		}
 
 		public static void PrintBoard(Board board)

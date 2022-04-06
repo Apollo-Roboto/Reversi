@@ -2,7 +2,7 @@ using System;
 
 namespace ReversiBot
 {
-	public struct Vector2
+	public struct Vector2 : IComparable
 	{
 		public int X { get; set; }
 		public int Y { get; set; }
@@ -33,8 +33,24 @@ namespace ReversiBot
 
 		public override int GetHashCode() => (X, Y).GetHashCode();
 
-		public static bool operator ==(Vector2 lhs, Vector2 rhs) => lhs.Equals(rhs);
+		public int CompareTo(object obj)
+		{	
+			Vector2 other = (Vector2)obj;
+			
+			int x = X.CompareTo(other.X);
+			if(x == 0)
+			{
+				int y = Y.CompareTo(other.Y);
+				return y;
+			}
+			else
+				return x;
+		}
 
+		public static bool operator ==(Vector2 lhs, Vector2 rhs) => lhs.Equals(rhs);
 		public static bool operator !=(Vector2 lhs, Vector2 rhs) => !(lhs == rhs);
+		public static bool operator <(Vector2 lhs, Vector2 rhs) => lhs.X < rhs.X || lhs.Y < rhs.Y;
+		public static bool operator >(Vector2 lhs, Vector2 rhs) => lhs.X > rhs.X || lhs.Y > rhs.Y;
+
 	}
 }

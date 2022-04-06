@@ -56,7 +56,7 @@ namespace ReversiBot
 
 		private void FlipDirection(Vector2 pos, Vector2 dir, Player player)
 		{
-			List<Cell> toFlip = new List<Cell>();
+			List<Cell> toFlip = new List<Cell>(24);
 			bool flippable = false;
 
 			for (int i = 1; i < 8; i++)
@@ -180,7 +180,7 @@ namespace ReversiBot
 
 		public List<Vector2> GetPossibleMoves(Player player)
 		{
-			List<Vector2> possibleMoves = new List<Vector2>();
+			List<Vector2> possibleMoves = new List<Vector2>(32);
 			for (int i = 0; i < 8; i++)
 				for (int j = 0; j < 8; j++)
 				{
@@ -191,84 +191,55 @@ namespace ReversiBot
 			return possibleMoves;
 		}
 
-		private PositionScore ScoreDirection(Vector2 pos, Vector2 dir, Player player)
+		public List<PositionInformation> GetPossiblePositionInformation(Player player)
 		{
-			float score = 0;
+			List<PositionInformation> possibleMoves = new List<PositionInformation>();
 
-			for (int i = 1; i < 8; i++)
+			foreach(Vector2 pos in GetPossibleMoves(player))
+			{
+				Cell cell = GetCell(pos);
+				// if(cell.Current != Player.NONE)
+				// 	continue;
+				
+				List<Vector2> flipped = new List<Vector2>(24);
+				foreach (Vector2 dir in directions)
+				{
+					flipped.AddRange(FlippedDirection(pos, dir, player));
+				}
+				if(flipped.Count > 0)
+					possibleMoves.Add(new PositionInformation(pos, float.MinValue, flipped));
+			}
+			return possibleMoves;
+		}
+
+		private List<Vector2> FlippedDirection(Vector2 pos, Vector2 dir, Player player)
+		{
+			List<Vector2> flipped = new List<Vector2>(6);
+			for(int i = 1; i < 8; i++)
 			{
 				Vector2 cpos = new Vector2(pos.X + i * dir.X, pos.Y + i * dir.Y);
 				if (IsOutside(cpos))
-					return null;
+					return new List<Vector2>();
 
 				Cell cell = GetCell(cpos);
 
-				// if nothing on next cell, skip
-				if (i == 1 && cell.Current == Player.NONE)
-					return null;
+				// if nothing on next cell, no flip
+				if (cell.Current == Player.NONE)
+					return new List<Vector2>();
 
-				// if same color, no possible move here
-				if (cell.Current == player)
-					return null;
+				// if neighbor is our player, no flip
+				if(i == 1 && cell.Current == player)
+					return new List<Vector2>();
 
-				// if opposite color, add score, continue
-				else if (cell.Current == player.Opposite())
-					score += 1;
+				// if opposite color, add to the flips
+				if(cell.Current == player.Opposite())
+					flipped.Add(cpos);
 
-				// if spot is free, take it
-				else if (cell.Current == Player.NONE)
-					return new PositionScore(cpos, score);
+				// if our color and not neighbor, done with the loop
+				if(i != 1 && cell.Current == player)
+					break;
 			}
-			return null;
-		}
-
-		public List<PositionScore> GetPossiblePositionScore(Player player)
-		{
-			List<PositionScore> possibleMoves = new List<PositionScore>();
-
-			for (int i = 0; i < 8; i++)
-			{
-				for (int j = 0; j < 8; j++)
-				{
-					Vector2 pos = new Vector2(i, j);
-					Cell cell = GetCell(pos);
-
-					// Only calculate those about this player
-					if (cell.Current != player)
-						continue;
-
-					foreach (Vector2 dir in directions)
-					{
-						PositionScore posScore = ScoreDirection(pos, dir, player);
-						if (posScore != null)
-						{
-							possibleMoves.Add(posScore);
-						}
-					}
-				}
-			}
-
-			List<PositionScore> combinedMoves = new List<PositionScore>();
-
-			// combine scores at same positions
-			for (int i = 0; i < possibleMoves.Count; i++)
-			{
-				for (int j = 0; j < possibleMoves.Count; j++)
-				{
-					if (j == i) continue;
-					if (possibleMoves[i].Pos == possibleMoves[j].Pos)
-					{
-						float score = possibleMoves[i].Score + possibleMoves[j].Score;
-						PositionScore newPos = new PositionScore(possibleMoves[i].Pos, score);
-
-						combinedMoves.Add(newPos);
-					}
-				}
-			}
-
-			combinedMoves.ForEach(x => possibleMoves.Add(x));
-
-			return possibleMoves;
+			return flipped;
 		}
 	}
 }
