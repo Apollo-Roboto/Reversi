@@ -104,5 +104,24 @@ namespace ReversiBot.Tests
 			Board board = BoardPreset.Tie();
 			Assert.Equal(Player.TIE, board.GetWinner());
 		}
+
+		[Fact]
+		public void GetPossiblePositionInformation()
+		{
+			Board board = BoardPreset.Startup();
+			List<PositionInformation> positionInformations = board.GetPossiblePositionInformation(Player.BLACK);
+			
+			List<PositionInformation> expected = new List<PositionInformation>{
+				new PositionInformation(new Vector2(2, 3), float.MinValue, new List<Vector2>{new Vector2(3, 3)}),
+				new PositionInformation(new Vector2(3, 2), float.MinValue, new List<Vector2>{new Vector2(3, 3)}),
+				new PositionInformation(new Vector2(4, 5), float.MinValue, new List<Vector2>{new Vector2(4, 4)}),
+				new PositionInformation(new Vector2(5, 4), float.MinValue, new List<Vector2>{new Vector2(4, 4)}),
+			};
+
+			positionInformations = positionInformations.OrderBy(x => x.Pos).ToList();
+			expected = expected.OrderBy(x => x.Pos).ToList();
+
+			Assert.Equal(expected, positionInformations);
+		}
 	}
 }
