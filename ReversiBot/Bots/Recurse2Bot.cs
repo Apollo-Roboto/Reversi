@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ReversiBot
 {
-	class Recurse2Bot : IBot
+	class Recurse2Bot : IPlayer
 	{
 		private Random random = new Random();
 		private Config config = Config.Load();

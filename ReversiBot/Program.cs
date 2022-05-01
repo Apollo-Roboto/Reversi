@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
+using CommandLine;
 
 namespace ReversiBot
 {
@@ -8,80 +10,65 @@ namespace ReversiBot
 		static void Main(string[] args)
 		{
 			Console.OutputEncoding = System.Text.Encoding.UTF8;
-			Game();
-			// BotVsBot();
-		}
 
-		static void Game()
-		{
-			Board board = BoardPreset.Startup();
-			Console.WriteLine("");
+			IPlayer p1 = null;
+			IPlayer p2 = null;
+			
+			Parser.Default.ParseArguments<CMDOptions>(args)
+			.WithParsed(options => {
+				options.Validate();
 
-			while (!board.IsGameOver())
-			{
-				// Console.Clear();
-				Utils.PrintBoard(board);
-
-				switch(board.Turn)
+				switch(options.Bot)
 				{
-					case Player.BLACK:
-						bool valid = false;
-						Vector2 pos = new Vector2(-1,-1);
-						while(!valid)
-						{
-							Console.Write("\n" + Player.BLACK + " Move: ");
-							string input = Console.ReadLine().Trim();
-							if(!Utils.ValidateInput(input))
-								continue;
-							pos = Utils.PosToCoord(input);
-							if(board.IsPlayable(pos, Player.BLACK))
-								valid = true;
-						}
-						board.Place(pos, Player.BLACK);
+					case 0: // game with two players
+						p1 = new HumanPlayer();
+						p2 = new HumanPlayer();
 						break;
-
-					case Player.WHITE:
-						PositionScore nextMove = Solver.Recursion1(board, Player.WHITE, 3);
-						board.Place(nextMove.Pos, Player.WHITE);
-						Console.WriteLine("\nNext move: " + nextMove);
-						Console.ReadLine();
+					case 1: // game with one bot
+						p1 = new Recurse2Bot();
+						p2 = new HumanPlayer();
+						break;
+					case 2: // automated game
+						p1 = new Recurse2Bot();
+						p2 = new Recurse2Bot();
 						break;
 				}
-				board.SwitchTurn();
-			}
+			});
 
-			Console.WriteLine("=== GAME OVER ===");
-			Utils.PrintBoard(board);
-			Console.WriteLine("Winner is " + board.GetWinner());
+			Play(p1, p2);
 		}
 
-		static void BotVsBot()
+		static void Play(IPlayer p1, IPlayer p2)
 		{
-			Board board = BoardPreset.Startup();
-			// Console.WriteLine("");
+			// randomly set black or white
+			if(new Random().NextDouble() > 0.5)
+			{
+				IPlayer tmp = p1;
+				p1 = p2;
+				p2 = tmp;
+			}
 
-			while (!board.IsGameOver())
+			Board board = BoardPreset.Startup();
+			while(!board.IsGameOver())
 			{
 				Console.Clear();
 				Utils.PrintBoard(board);
-				PositionScore nextMove;
+
+				PositionInformation nextMove;
 
 				switch(board.Turn)
 				{
 					case Player.BLACK:
-						nextMove = Solver.Recursion1(board, Player.BLACK, 3);
-						board.Place(nextMove.Pos, Player.BLACK);
-						Console.WriteLine("\nBLACK Next move: " + nextMove);
+						nextMove = p1.NextMove(board, Player.BLACK);
 						break;
-
 					case Player.WHITE:
-						nextMove = Solver.Recursion1(board, Player.WHITE, 1);
-						board.Place(nextMove.Pos, Player.WHITE);
-						Console.WriteLine("\nWHITE Next move: " + nextMove);
+						nextMove = p2.NextMove(board, Player.WHITE);
 						break;
+					default:
+						throw new Exception("Invalid player");
 				}
-				Thread.Sleep(75);
-				// Console.ReadLine();
+
+				board.Place(nextMove.Pos, board.Turn);
 				board.SwitchTurn();
 			}
 

@@ -1,6 +1,6 @@
 namespace ReversiBot
 {
-	public class OneLevelBot : IBot
+	public class OneLevelBot : IPlayer
 	{
 		public PositionInformation NextMove(Board board, Player player)
 		{

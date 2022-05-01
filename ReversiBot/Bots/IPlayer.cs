@@ -1,6 +1,6 @@
 namespace ReversiBot
 {
-	public interface IBot
+	public interface IPlayer
 	{
 		public PositionInformation NextMove(Board board, Player player);
 	}
