@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ReversiBot
 {
-	class HumanPlayer : IPlayer
+	public class HumanPlayer : IPlayer
 	{
 		public PositionInformation NextMove(Board board, Player player)
 		{

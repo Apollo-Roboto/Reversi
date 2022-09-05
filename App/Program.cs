@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
+using ReversiBot;
 using CommandLine;
 
-namespace ReversiBot
+namespace App
 {
 	class Program
 	{
