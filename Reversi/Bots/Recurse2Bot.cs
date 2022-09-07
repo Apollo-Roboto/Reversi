@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public class Recurse2Bot : IPlayer
 	{
@@ -19,7 +19,7 @@ namespace ReversiBot
 
 			foreach (PositionInformation pos in board.GetPossiblePositionInformation(player))
 			{
-				List<Vector2> diskFlipped = pos.Flipped;
+				List<Position> diskFlipped = pos.Flipped;
 				int enemyMoves = 0;
 				float enemyScore = 0;
 				bool enemyCannotPlay = false;
@@ -71,8 +71,8 @@ namespace ReversiBot
 		/// Calculate the score from multiple factors from the configuration file
 		/// </summary>
 		private float ScoreResolver(
-			Vector2 pos,
-			List<Vector2> diskFlipped,
+			Position pos,
+			List<Position> diskFlipped,
 			int enemyMoves,
 			float enemyScore,
 			bool enemyCannotPlay,
@@ -83,7 +83,7 @@ namespace ReversiBot
 		{
 			float score = 0;
 
-			foreach (Vector2 diskToFlip in diskFlipped)
+			foreach (Position diskToFlip in diskFlipped)
 			{
 				score += config.GetCellImportance(diskToFlip) * config.CellImportanceMultiplier;
 			}

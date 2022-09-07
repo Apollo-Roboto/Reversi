@@ -1,4 +1,4 @@
-namespace ReversiBot
+namespace Reversi
 {
 	public class OneLevelBot : IPlayer
 	{

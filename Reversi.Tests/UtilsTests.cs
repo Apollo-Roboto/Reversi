@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace ReversiBot.Tests
+namespace Reversi.Tests
 {
 	public class UtilsTests
 	{

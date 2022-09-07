@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public class TwoLevelBot : IPlayer
 	{

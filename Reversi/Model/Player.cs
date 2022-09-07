@@ -1,6 +1,6 @@
 using System;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public static class PlayerExtensions
 	{
@@ -25,6 +25,6 @@ namespace ReversiBot
 
 	public enum Player
 	{
-		NONE, WHITE, BLACK, TIE
+		NONE, WHITE, BLACK
 	}
 }

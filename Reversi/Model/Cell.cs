@@ -1,6 +1,6 @@
 using System;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public class Cell : ICloneable
 	{

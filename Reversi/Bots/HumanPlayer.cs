@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public class HumanPlayer : IPlayer
 	{
 		public PositionInformation NextMove(Board board, Player player)
 		{
 			bool valid = false;
-			Vector2 pos = new Vector2(-1,-1);
+			Position pos = new Position(-1,-1);
 
 			while(!valid)
 			{
@@ -24,7 +24,7 @@ namespace ReversiBot
 					valid = true;
 			}
 
-			return new PositionInformation(pos, 0, new List<Vector2>());
+			return new PositionInformation(pos, 0, new List<Position>());
 		}
 	}
 }

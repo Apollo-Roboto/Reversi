@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public static class BoardPreset
 	{

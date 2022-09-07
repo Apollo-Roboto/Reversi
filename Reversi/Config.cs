@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using YamlDotNet;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public class Config
 	{
@@ -55,7 +55,7 @@ namespace ReversiBot
 			}
 		}
 
-		public int GetCellImportance(Vector2 pos)
+		public int GetCellImportance(Position pos)
 		{
 			return _BoardCells[pos.X, pos.Y];
 		}

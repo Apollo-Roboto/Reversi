@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace ReversiBot
+namespace Reversi
 {
 	public static class Utils
 	{
@@ -20,12 +20,12 @@ namespace ReversiBot
 			return Regex.Matches(input, @"^[A-H][1-8]$").Count != 0;
 		}
 		
-		public static Vector2 PosToCoord(string pos)
+		public static Position PosToCoord(string pos)
 		{
 			int horizontal = ((int)pos[0]) - 64;
 			int vertical = (int.Parse(pos.Substring(1)));
 
-			return new Vector2(vertical - 1, horizontal - 1);
+			return new Position(vertical - 1, horizontal - 1);
 		}
 
 		public static Player StringToPlayer(string player)

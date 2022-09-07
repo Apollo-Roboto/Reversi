@@ -2,12 +2,12 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Reversi\Reversi.csproj" />
-    <!-- <PackageReference Include="ApolloRoboto.Constants" Version="0.3.0" /> -->
+    <PackageReference Include="ApolloRoboto.Commander" Version="0.1.1" />
     <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
   </ItemGroup>
 
