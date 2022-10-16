@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Collections.Generic;
 
 namespace Reversi
@@ -21,10 +20,10 @@ namespace Reversi
 
 		public Board Clone()
 		{
-			Cell[,] clonedCells = new Cell[8,8];
-			for(int i = 0; i < 8; i++)
-				for(int j = 0; j < 8; j++)
-					clonedCells[i,j] = (Cell)Cells[i,j].Clone();
+			Cell[,] clonedCells = new Cell[8, 8];
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					clonedCells[i, j] = (Cell)Cells[i, j].Clone();
 
 			return new Board(
 				clonedCells,
@@ -90,7 +89,7 @@ namespace Reversi
 		public void SwitchTurn()
 		{
 			// don't switch turns if the other player cannot play
-			if(CanPlayerPlay(Turn.Opposite()))
+			if (CanPlayerPlay(Turn.Opposite()))
 				Turn = Turn.Opposite();
 		}
 
@@ -195,18 +194,18 @@ namespace Reversi
 		{
 			List<PositionInformation> possibleMoves = new List<PositionInformation>();
 
-			foreach(Position pos in GetPossibleMoves(player))
+			foreach (Position pos in GetPossibleMoves(player))
 			{
 				Cell cell = GetCell(pos);
 				// if(cell.Current != Player.NONE)
 				// 	continue;
-				
+
 				List<Position> flipped = new List<Position>(24);
 				foreach (Position dir in directions)
 				{
 					flipped.AddRange(FlippedDirection(pos, dir, player));
 				}
-				if(flipped.Count > 0)
+				if (flipped.Count > 0)
 					possibleMoves.Add(new PositionInformation(pos, float.MinValue, flipped));
 			}
 			return possibleMoves;
@@ -215,7 +214,7 @@ namespace Reversi
 		private List<Position> FlippedDirection(Position pos, Position dir, Player player)
 		{
 			List<Position> flipped = new List<Position>(6);
-			for(int i = 1; i < 8; i++)
+			for (int i = 1; i < 8; i++)
 			{
 				Position cpos = new Position(pos.X + i * dir.X, pos.Y + i * dir.Y);
 				if (IsOutside(cpos))
@@ -228,18 +227,47 @@ namespace Reversi
 					return new List<Position>();
 
 				// if neighbor is our player, no flip
-				if(i == 1 && cell.Current == player)
+				if (i == 1 && cell.Current == player)
 					return new List<Position>();
 
 				// if opposite color, add to the flips
-				if(cell.Current == player.Opposite())
+				if (cell.Current == player.Opposite())
 					flipped.Add(cpos);
 
 				// if our color and not neighbor, done with the loop
-				if(i != 1 && cell.Current == player)
+				if (i != 1 && cell.Current == player)
 					break;
 			}
 			return flipped;
 		}
+
+		/// <summary>
+		/// Creates a start board with 4 disks placed (2 black 2 white)
+		/// <code>
+		/// - - - - - - - - <br/>
+		/// - - - - - - - - <br/>
+		/// - - - - - - - - <br/>
+		/// - - - W B - - - <br/>
+		/// - - - B W - - - <br/>
+		/// - - - - - - - - <br/>
+		/// - - - - - - - - <br/>
+		/// - - - - - - - - <br/>
+		/// </code>
+		/// </summary>
+
+		public static Board Startup()
+		{
+			Cell[,] cells = new Cell[8, 8];
+			for (int i = 0; i < 8; i++)
+				for (int j = 0; j < 8; j++)
+					cells[i, j] = new Cell();
+
+			cells[3, 3].Current = Player.WHITE;
+			cells[3, 4].Current = Player.BLACK;
+			cells[4, 3].Current = Player.BLACK;
+			cells[4, 4].Current = Player.WHITE;
+			return new Board(cells);
+		}
+
 	}
 }

@@ -1,18 +1,19 @@
 using System;
-using System.Collections.Generic;
 
-namespace Reversi
+namespace Reversi.Bot
 {
-	public class Recurse1Bot : IPlayer
+	/// <summary>
+	/// NormalBot, calculates the next moves by choosing a position that limits the opponent's possible move
+	/// </summary>
+	public class NormalBot : IPlayer
 	{
 		private Random random = new Random();
-		private Config config = Config.Load();
 
 		public PositionInformation NextMove(Board board, Player player)
 		{
-			return Recurse(board, player, config.Depth);
+			return Recurse(board, player, 1);
 		}
-		
+
 		private PositionInformation Recurse(Board board, Player player, int depth = 0, int level = 0)
 		{
 			PositionInformation bestPos = PositionInformation.Empty();
@@ -45,8 +46,6 @@ namespace Reversi
 				}
 
 				score += (float)random.NextDouble();
-
-				if (level == 0) Console.WriteLine($"Calculated score for position {pos.Pos.AN()} : {score}");
 
 				if (score > bestPos.Score)
 				{

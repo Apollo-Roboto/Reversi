@@ -1,11 +1,11 @@
 using System;
 using Xunit;
-using System.Linq;
+using Reversi;
 using System.Collections.Generic;
 
 namespace Reversi.Tests
 {
-	public class Vector2Tests
+	public class PositionTests
 	{
 		public static IEnumerable<object[]> AlgebraicNotationData()
 		{
@@ -20,9 +20,16 @@ namespace Reversi.Tests
 
 		[Theory]
 		[MemberData(nameof(AlgebraicNotationData))]
-		public void AlgebraicNotation(string expected, Position pos)
+		public void PositionToAlgebraicNotation(string expected, Position pos)
 		{
 			Assert.Equal(expected, pos.AN());
+		}
+
+		[Theory]
+		[MemberData(nameof(AlgebraicNotationData))]
+		public void AlgebraicNotationToPosition(string an, Position expected)
+		{
+			Assert.Equal(expected, Position.FromAN(an));
 		}
 	}
 }

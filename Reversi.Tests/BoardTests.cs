@@ -110,7 +110,7 @@ namespace Reversi.Tests
 		{
 			Board board = BoardPreset.Startup();
 			List<PositionInformation> positionInformations = board.GetPossiblePositionInformation(Player.BLACK);
-			
+
 			List<PositionInformation> expected = new List<PositionInformation>{
 				new PositionInformation(new Position(2, 3), float.MinValue, new List<Position>{new Position(3, 3)}),
 				new PositionInformation(new Position(3, 2), float.MinValue, new List<Position>{new Position(3, 3)}),

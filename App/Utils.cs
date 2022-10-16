@@ -1,8 +1,8 @@
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
+using Reversi;
 
-namespace Reversi
+namespace App
 {
 	public static class Utils
 	{
@@ -10,7 +10,7 @@ namespace Reversi
 		{
 			Console.WriteLine();
 			Console.Write("Press enter to continue");
-			while (Console.ReadKey().Key != ConsoleKey.Enter) {}
+			while (Console.ReadKey().Key != ConsoleKey.Enter) { }
 			Console.Write(new String(' ', Console.BufferWidth));
 			Console.WriteLine();
 		}
@@ -19,7 +19,7 @@ namespace Reversi
 		{
 			return Regex.Matches(input, @"^[A-H][1-8]$").Count != 0;
 		}
-		
+
 		public static Position PosToCoord(string pos)
 		{
 			int horizontal = ((int)pos[0]) - 64;
@@ -30,7 +30,7 @@ namespace Reversi
 
 		public static Player StringToPlayer(string player)
 		{
-			switch(player.ToLower())
+			switch (player.ToLower())
 			{
 				case "black":
 					return Player.BLACK;

@@ -1,7 +1,7 @@
 using System;
-using System.Linq;
+using Reversi;
 
-namespace Reversi
+namespace Reversi.Tests
 {
 	public static class BoardPreset
 	{

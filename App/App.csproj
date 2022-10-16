@@ -1,14 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>net6.0</TargetFramework>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Reversi\Reversi.csproj" />
-    <PackageReference Include="ApolloRoboto.Commander" Version="0.1.1" />
-    <PackageReference Include="CommandLineParser" Version="2.9.0-preview1" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Reversi\Reversi.csproj" />
+	</ItemGroup>
 
 </Project>
