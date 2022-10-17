@@ -1,6 +1,6 @@
 # Reversi
 
-Reversi C# library.
+Reversi C# library. Availlable on [Nuget](https://www.nuget.org/packages/ApolloRoboto.Reversi)!
 
 ## Usage
 
