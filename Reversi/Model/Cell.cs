@@ -1,6 +1,6 @@
 using System;
 
-namespace ReversiBot
+namespace ApolloRoboto.Reversi
 {
 	public class Cell : ICloneable
 	{

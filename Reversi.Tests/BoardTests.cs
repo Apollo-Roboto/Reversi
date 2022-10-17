@@ -3,7 +3,7 @@ using Xunit;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace ReversiBot.Tests
+namespace ApolloRoboto.Reversi.Tests
 {
 	public class BoardTests
 	{
@@ -11,7 +11,7 @@ namespace ReversiBot.Tests
 		public void Place()
 		{
 			Board board = BoardPreset.Startup();
-			Vector2 pos = new Vector2(2, 3);
+			Position pos = new Position(2, 3);
 			Assert.Equal(Player.NONE, board.GetPlayer(pos));
 			board.Place(pos, Player.BLACK);
 			Assert.Equal(Player.BLACK, board.GetPlayer(pos));
@@ -21,22 +21,22 @@ namespace ReversiBot.Tests
 		public void PlaceMakesTheDiskFlip()
 		{
 			Board board = BoardPreset.Startup();
-			board.Place(new Vector2(2, 3), Player.BLACK);
-			Assert.Equal(Player.BLACK, board.GetPlayer(new Vector2(3, 3)));
+			board.Place(new Position(2, 3), Player.BLACK);
+			Assert.Equal(Player.BLACK, board.GetPlayer(new Position(3, 3)));
 		}
 
 		[Fact]
 		public void GetPossibleMoves()
 		{
 			Board board = BoardPreset.Startup();
-			board.Place(new Vector2(2, 3), Player.BLACK);
-			List<Vector2> expected = new List<Vector2>{
-				new Vector2(2,2),
-				new Vector2(2,4),
-				new Vector2(4,2)
+			board.Place(new Position(2, 3), Player.BLACK);
+			List<Position> expected = new List<Position>{
+				new Position(2,2),
+				new Position(2,4),
+				new Position(4,2)
 			};
 
-			List<Vector2> indexes = board.GetPossibleMoves(Player.WHITE);
+			List<Position> indexes = board.GetPossibleMoves(Player.WHITE);
 			Assert.Equal(expected, indexes);
 		}
 
@@ -44,14 +44,14 @@ namespace ReversiBot.Tests
 		public void IsPlayable()
 		{
 			Board board = BoardPreset.Startup();
-			Assert.True(board.IsPlayable(new Vector2(5, 4), Player.BLACK));
+			Assert.True(board.IsPlayable(new Position(5, 4), Player.BLACK));
 		}
 
 		[Fact]
 		public void IsNotPlayable()
 		{
 			Board board = BoardPreset.Startup();
-			Assert.False(board.IsPlayable(new Vector2(5, 4), Player.WHITE));
+			Assert.False(board.IsPlayable(new Position(5, 4), Player.WHITE));
 		}
 
 		[Fact]
@@ -95,14 +95,14 @@ namespace ReversiBot.Tests
 		public void GetWinner()
 		{
 			Board board = BoardPreset.GameOver();
-			Assert.Equal(Player.WHITE, board.GetWinner());
+			Assert.Equal(WinningPlayer.WHITE, board.GetWinner());
 		}
 
 		[Fact]
 		public void GetWinnerTie()
 		{
 			Board board = BoardPreset.Tie();
-			Assert.Equal(Player.TIE, board.GetWinner());
+			Assert.Equal(WinningPlayer.TIE, board.GetWinner());
 		}
 
 		[Fact]
@@ -110,12 +110,12 @@ namespace ReversiBot.Tests
 		{
 			Board board = BoardPreset.Startup();
 			List<PositionInformation> positionInformations = board.GetPossiblePositionInformation(Player.BLACK);
-			
+
 			List<PositionInformation> expected = new List<PositionInformation>{
-				new PositionInformation(new Vector2(2, 3), float.MinValue, new List<Vector2>{new Vector2(3, 3)}),
-				new PositionInformation(new Vector2(3, 2), float.MinValue, new List<Vector2>{new Vector2(3, 3)}),
-				new PositionInformation(new Vector2(4, 5), float.MinValue, new List<Vector2>{new Vector2(4, 4)}),
-				new PositionInformation(new Vector2(5, 4), float.MinValue, new List<Vector2>{new Vector2(4, 4)}),
+				new PositionInformation(new Position(2, 3), float.MinValue, new List<Position>{new Position(3, 3)}),
+				new PositionInformation(new Position(3, 2), float.MinValue, new List<Position>{new Position(3, 3)}),
+				new PositionInformation(new Position(4, 5), float.MinValue, new List<Position>{new Position(4, 4)}),
+				new PositionInformation(new Position(5, 4), float.MinValue, new List<Position>{new Position(4, 4)}),
 			};
 
 			positionInformations = positionInformations.OrderBy(x => x.Pos).ToList();

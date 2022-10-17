@@ -1,7 +1,6 @@
 using System;
-using System.Linq;
 
-namespace ReversiBot
+namespace ApolloRoboto.Reversi.Tests
 {
 	public static class BoardPreset
 	{

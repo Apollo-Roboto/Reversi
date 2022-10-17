@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<OutputType>Library</OutputType>
+
+		<AssemblyName>ApolloRoboto.Reversi</AssemblyName>
+		<PackageId>ApolloRoboto.Reversi</PackageId>
+		<Version>0.1.1</Version>
+
+		<PackageTitle>ApolloRoboto.Reversi</PackageTitle>
+		<Title>ApolloRoboto.Reversi</Title>
+		<Description>Library implementation of the Reversi board game.</Description>
+		<Authors>Apollo-Roboto</Authors>
+		<!-- <PackageProjectUrl>https://github.com/Apollo-Roboto/ApolloRoboto.Reversi</PackageProjectUrl> -->
+		<RepositoryUrl>https://github.com/Apollo-Roboto/Reversi</RepositoryUrl>
+		<PackageTags>Bot;Reversi;Game;Board Game;Game;Othello</PackageTags>
+		<Copyright>Copyright © 2022 | Apollo-Roboto</Copyright>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+		<PackageReleaseNotes>README.md</PackageReleaseNotes>
+		<!-- <PackageIcon>something.png</PackageIcon> -->
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE" Pack="true" PackagePath="" />
+		<None Include="..\README.md" Pack="true" PackagePath="" />
+	</ItemGroup>
+
+</Project>

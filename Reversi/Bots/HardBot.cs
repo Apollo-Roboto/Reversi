@@ -1,24 +1,34 @@
 using System;
-using System.Collections.Generic;
 
-namespace ReversiBot
+namespace ApolloRoboto.Reversi.Bot
 {
-	class Recurse1Bot : IPlayer
+	/// <summary>
+	/// NormalBot, Recursively calculates the next moves by choosing a position that limits the opponent's possible move and prioritizes corners.
+	/// </summary>
+	public class HardBot : IPlayer
 	{
 		private Random random = new Random();
-		private Config config = Config.Load();
 
 		public PositionInformation NextMove(Board board, Player player)
 		{
-			return Recurse(board, player, config.Depth);
+			return Recurse(board, player, 3);
 		}
-		
+
 		private PositionInformation Recurse(Board board, Player player, int depth = 0, int level = 0)
 		{
 			PositionInformation bestPos = PositionInformation.Empty();
 			foreach (PositionInformation pos in board.GetPossiblePositionInformation(player))
 			{
 				float score = pos.Flipped.Count;
+
+				// if position is a corner
+				if (pos.Pos == new Position(0, 0) ||
+					pos.Pos == new Position(8, 0) ||
+					pos.Pos == new Position(0, 8) ||
+					pos.Pos == new Position(8, 8))
+				{
+					score += 2000;
+				}
 
 				float enemyMoves = 0;
 				Board newboard = board.Clone();
@@ -45,8 +55,6 @@ namespace ReversiBot
 				}
 
 				score += (float)random.NextDouble();
-
-				if (level == 0) Console.WriteLine($"Calculated score for position {pos.Pos.AN()} : {score}");
 
 				if (score > bestPos.Score)
 				{
