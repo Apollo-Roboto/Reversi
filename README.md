@@ -1,23 +1,12 @@
-# ReversiBot
+# Reversi
 
-Play reversi against a bot, or with two players, or watch the bot fight!
-It chooses it's next move by looking recusivly through the board to find the best move.
+Reversi C# library.
 
 ## Usage
 
-### Normal game (default to one player and one bot)
+Play against the bot!
 ```powershell
-dotnet run --project .\ReversiBot\ReversiBot.csproj
-```
-
-### Two player game
-```powershell
-dotnet run --project .\ReversiBot\ReversiBot.csproj --bot 0
-```
-
-### Watch the bot fight itself
-```powershell
-dotnet run --project .\ReversiBot\ReversiBot.csproj --bot 2
+dotnet run --project .\App\App.csproj
 ```
 
 ## Preview

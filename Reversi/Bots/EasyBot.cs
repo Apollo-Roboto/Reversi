@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Reversi.Bot
+namespace ApolloRoboto.Reversi.Bot
 {
 	/// <summary>
 	/// Easy bot, only plays randomly across all possible moves.

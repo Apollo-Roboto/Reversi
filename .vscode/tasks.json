@@ -6,14 +6,16 @@
 			"command": "dotnet",
 			"type": "process",
 			"args": ["build"],
-			"problemMatcher": "$msCompile"
+			"problemMatcher": "$msCompile",
+			"isBuildCommand": true
 		},
 		{
 			"label": "Test",
 			"command": "dotnet",
 			"type": "process",
-			"args": ["test"],
-			"problemMatcher": "$msCompile"
+			"args": ["test", "--logger", "trx;LogFileName=TestsResults.trx;"],
+			"problemMatcher": "$msCompile",
+			"isTestCommand": true,
 		},
 		{
 			"label": "Run",
@@ -22,7 +24,7 @@
 			"args": [
 				"run",
 				"--project",
-				"./ReversiBot/ReversiBot.csproj"
+				"./App/App.csproj"
 			],
 			"problemMatcher": "$msCompile"
 		},

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using Reversi;
-using Reversi.Bot;
+using ApolloRoboto.Reversi;
+using ApolloRoboto.Reversi.Bot;
 
 namespace App
 {
@@ -21,7 +21,7 @@ namespace App
 				if (!Utils.ValidateInput(input))
 					continue;
 
-				pos = Utils.PosToCoord(input);
+				pos = Position.FromAN(input);
 
 				if (board.IsPlayable(pos, player))
 					valid = true;

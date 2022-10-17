@@ -1,6 +1,6 @@
 using System;
 
-namespace Reversi
+namespace ApolloRoboto.Reversi
 {
 	public static class WinningPlayerExtensions
 	{

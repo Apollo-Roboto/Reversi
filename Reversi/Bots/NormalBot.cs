@@ -1,6 +1,6 @@
 using System;
 
-namespace Reversi.Bot
+namespace ApolloRoboto.Reversi.Bot
 {
 	/// <summary>
 	/// NormalBot, calculates the next moves by choosing a position that limits the opponent's possible move

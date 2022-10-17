@@ -1,9 +1,8 @@
 using System;
 using Xunit;
-using Reversi;
 using System.Collections.Generic;
 
-namespace Reversi.Tests
+namespace ApolloRoboto.Reversi.Tests
 {
 	public class PositionTests
 	{

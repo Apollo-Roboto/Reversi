@@ -1,7 +1,6 @@
 using System;
-using Reversi;
 
-namespace Reversi.Tests
+namespace ApolloRoboto.Reversi.Tests
 {
 	public static class BoardPreset
 	{

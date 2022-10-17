@@ -4,19 +4,17 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<OutputType>Library</OutputType>
 
-		<RootNamespace>ReversiBot</RootNamespace>
-
 		<AssemblyName>ApolloRoboto.Reversi</AssemblyName>
 		<PackageId>ApolloRoboto.Reversi</PackageId>
-		<Version>0.0.1</Version>
+		<Version>0.1.0</Version>
 
 		<PackageTitle>ApolloRoboto.Reversi</PackageTitle>
 		<Title>ApolloRoboto.Reversi</Title>
 		<Description>Library implementation of the Reversi board game.</Description>
 		<Authors>Apollo-Roboto</Authors>
 		<!-- <PackageProjectUrl>https://github.com/Apollo-Roboto/ApolloRoboto.Reversi</PackageProjectUrl> -->
-		<RepositoryUrl>https://github.com/Apollo-Roboto/ApolloRoboto.Constants</RepositoryUrl>
-		<PackageTags>Bot;Reversi;Game;Board Game;</PackageTags>
+		<RepositoryUrl>https://github.com/Apollo-Roboto/Reversi</RepositoryUrl>
+		<PackageTags>Bot;Reversi;Game;Board Game;Game;Othello</PackageTags>
 		<Copyright>Copyright © 2022 | Apollo-Roboto</Copyright>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 		<PackageReleaseNotes>README.md</PackageReleaseNotes>
@@ -26,11 +24,6 @@
 	<ItemGroup>
 		<None Include="..\LICENSE" Pack="true" PackagePath="" />
 		<None Include="..\README.md" Pack="true" PackagePath="" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-		<PackageReference Include="YamlDotNet" Version="11.2.1" />
 	</ItemGroup>
 
 </Project>

@@ -1,6 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
-using Reversi;
+
+using ApolloRoboto.Reversi;
 
 namespace App
 {
@@ -18,14 +19,6 @@ namespace App
 		public static bool ValidateInput(string input)
 		{
 			return Regex.Matches(input, @"^[A-H][1-8]$").Count != 0;
-		}
-
-		public static Position PosToCoord(string pos)
-		{
-			int horizontal = ((int)pos[0]) - 64;
-			int vertical = (int.Parse(pos.Substring(1)));
-
-			return new Position(vertical - 1, horizontal - 1);
 		}
 
 		public static Player StringToPlayer(string player)

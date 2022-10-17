@@ -3,7 +3,7 @@ using Xunit;
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Reversi.Tests
+namespace ApolloRoboto.Reversi.Tests
 {
 	public class BoardTests
 	{

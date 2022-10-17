@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Reversi
+namespace ApolloRoboto.Reversi
 {
 	public class Board
 	{

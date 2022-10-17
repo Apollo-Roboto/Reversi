@@ -1,4 +1,4 @@
-namespace Reversi
+namespace ApolloRoboto.Reversi
 {
 	public interface IPlayer
 	{

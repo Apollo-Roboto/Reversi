@@ -1,7 +1,7 @@
 using System;
 using Xunit;
 
-namespace Reversi.Tests
+namespace ApolloRoboto.Reversi.Tests
 {
 	public class CellTests
 	{
